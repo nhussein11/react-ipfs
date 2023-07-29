@@ -20,7 +20,7 @@ To import the styles the library needs:
 
 ```js
 /* _app.tsx */
-import '<your-library>/dist/style.css'
+import 'ipfs-react/dist/style.css'
 // More imports and your App component ...
 ```
 
@@ -28,7 +28,7 @@ To import library components:
 
 ```js
 /* pages/index.tsx */
-import { Dummy } from '<your-library>'
+import { Dummy } from 'ipfs-react'
 // More imports and your Page component...
 ```
 
