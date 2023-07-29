@@ -14,7 +14,7 @@ Always prepending pnpm:
 
 ## Using this library
 
-Install the library running `pnpm i react-ipfs`.
+Install the library running `pnpm i ipfs-react`.
 
 To import the styles the library needs:
 
