@@ -40,7 +40,7 @@ Install the library running `pnpm i <your-library>`.
 
 To import the styles the library needs:
 
-```js/ts
+```js
 /* _app.tsx */
 import '<your-library>/dist/style.css'
 // More imports and your App component ...
@@ -48,7 +48,7 @@ import '<your-library>/dist/style.css'
 
 To import library components:
 
-```js/ts
+```js
 /* pages/index.tsx */
 import { Dummy } from '<your-library>'
 // More imports and your Page component...
