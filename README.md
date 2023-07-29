@@ -12,7 +12,7 @@ Always prepending pnpm:
 - `test`: Runs testing using watch mode.
 - `test:cov`: Runs testing displaying a coverage report.
 
-## Using the library in a React frontend app
+## Using this library
 
 Install the library running `pnpm i react-ipfs`.
 
