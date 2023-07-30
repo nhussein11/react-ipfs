@@ -57,4 +57,25 @@ describe('IPFSImage', () => {
     expect(image).toBeDefined()
     expect(image.getAttribute('loading')).toBe('eager')
   })
+
+  it('should render the IPFSImage component with custom props', () => {
+    render(<ImageIPFS hash={MOCK_HASH} data-testid="custom-test-id" />)
+    const image = screen.getByRole('img')
+    expect(image).toBeDefined()
+    expect(image.getAttribute('data-testid')).toBe('custom-test-id')
+  })
+
+  it('should render the IPFSImage component with custom style', () => {
+    render(<ImageIPFS hash={MOCK_HASH} style={{ backgroundColor: 'red' }} />)
+    const image = screen.getByRole('img')
+    expect(image).toBeDefined()
+    expect(image.getAttribute('style')).toBe('background-color: red;')
+  })
+
+  it('should render the IPFSImage component with custom className', () => {
+    render(<ImageIPFS hash={MOCK_HASH} className="custom-class" />)
+    const image = screen.getByRole('img')
+    expect(image).toBeDefined()
+    expect(image.getAttribute('class')).toBe('custom-class')
+  })
 })
