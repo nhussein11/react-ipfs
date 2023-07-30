@@ -1,11 +1,21 @@
-import { type ImgHTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react'
 import { getIpfsURL } from '../../utils/ipfs'
 
-export interface IpfsImageProps extends ImgHTMLAttributes<HTMLImageElement> {
+export interface IpfsImageProps extends HTMLAttributes<HTMLImageElement> {
   hash: string
   gateway?: string
+  width?: number
+  height?: number
+  alt?: string
+  lazy?: boolean
 }
 
-export const ImageIPFS = ({ hash, gateway, ...props }: IpfsImageProps): JSX.Element => {
-  return <img src={getIpfsURL(gateway, hash)} className="w-40 h-40 border border-black" {...props} />
+export const ImageIPFS = ({ hash, gateway, width, height, alt, lazy, ...props }: IpfsImageProps): JSX.Element => {
+  const imgSrc = getIpfsURL(gateway, hash)
+  const imgWidth = width ?? 100
+  const imgHeight = height ?? 100
+  const imgAlt = alt ?? 'IPFS Image'
+  const imgLoading = lazy === true ? 'lazy' : 'eager'
+
+  return <img src={imgSrc} alt={imgAlt} width={imgWidth} height={imgHeight} loading={imgLoading} {...props} />
 }
