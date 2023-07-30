@@ -26,5 +26,5 @@ export const SpecificGatewayImage = Template.bind({})
 
 SpecificGatewayImage.args = {
   hash: 'QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi',
-  gateaway: 'gateway.moralisipfs.com',
+  gateway: 'gateway.moralisipfs.com',
 }
