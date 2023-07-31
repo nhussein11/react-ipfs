@@ -27,31 +27,31 @@ export const ImageIPFS = ({
   fallbackImage = DEFAULT_FALLBACK_IMAGE,
   ...props
 }: IpfsImageProps): JSX.Element => {
-  const imgLoading = lazy === true ? 'lazy' : 'eager'
-  const [imgSrc, setImgSrc] = useState<string>('')
+  const lazyLoading = lazy === true ? 'lazy' : 'eager'
+  const [imageURL, setImageURL] = useState<string>('')
 
   useEffect(() => {
-    const imgSrcCleaned = getIpfsURL(gateway, hash)
-    setImgSrc(imgSrcCleaned)
+    const cleanedImageURL = getIpfsURL(gateway, hash)
+    setImageURL(cleanedImageURL)
   }, [hash, gateway])
 
-  const handleOnError = (event: SyntheticEvent<HTMLImageElement, Event>): void => {
+  const handleImageError = (event: SyntheticEvent<HTMLImageElement, Event>): void => {
     if (event.type === 'error') {
-      setImgSrc(fallbackImage)
+      setImageURL(fallbackImage)
     }
   }
 
   return (
     <img
-      src={imgSrc}
+      src={imageURL}
       alt={alt}
       width={width}
       height={height}
       style={style}
       className={className}
-      loading={imgLoading}
+      loading={lazyLoading}
       onError={(event) => {
-        handleOnError(event)
+        handleImageError(event)
       }}
       {...props}
     />
