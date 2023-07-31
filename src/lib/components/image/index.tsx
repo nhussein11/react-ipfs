@@ -35,8 +35,8 @@ export const ImageIPFS = ({
     setImgSrc(imgSrcCleaned)
   }, [hash, gateway])
 
-  const handleOnError = (e: SyntheticEvent<HTMLImageElement, Event>): void => {
-    if (e.type === 'error') {
+  const handleOnError = (event: SyntheticEvent<HTMLImageElement, Event>): void => {
+    if (event.type === 'error') {
       setImgSrc(fallbackImage)
     }
   }
@@ -50,8 +50,8 @@ export const ImageIPFS = ({
       style={style}
       className={className}
       loading={imgLoading}
-      onError={(e) => {
-        handleOnError(e)
+      onError={(event) => {
+        handleOnError(event)
       }}
       {...props}
     />
