@@ -1,4 +1,4 @@
-import { CSSProperties, HTMLAttributes, HTMLProps } from 'react'
+import type { CSSProperties, HTMLAttributes, HTMLProps } from 'react'
 import { getIpfsURL } from '../../utils/ipfs'
 
 export interface IpfsImageProps extends HTMLAttributes<HTMLImageElement> {
