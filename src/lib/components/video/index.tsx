@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, type HTMLAttributes, type ReactNode } from 'react'
+import { useLayoutEffect, useState, type HTMLAttributes, type ReactNode, useRef, useEffect } from 'react'
 import { getIpfsURL } from '../../utils/ipfs'
 
 const DefaultLoadingComponent = (): JSX.Element => {
@@ -12,6 +12,7 @@ export interface IpfsVideoProps extends HTMLAttributes<HTMLVideoElement> {
   loop?: boolean
   loadingComponent?: ReactNode
   thumbnail?: string
+  volume?: number
 }
 
 export const VideoIPFS = ({
@@ -20,11 +21,19 @@ export const VideoIPFS = ({
   muted = true,
   loop = true,
   loadingComponent = <DefaultLoadingComponent />,
+  volume = 1,
   thumbnail,
   ...rest
 }: IpfsVideoProps): JSX.Element => {
   const [videoUrl, setVideoUrl] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(true)
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  useEffect(() => {
+    if (videoRef.current !== undefined && videoRef.current !== null) {
+      videoRef.current.volume = volume
+    }
+  }, [volume])
 
   useLayoutEffect(() => {
     const cleanedVideoURL = getIpfsURL(gateway, hash)
@@ -42,7 +51,7 @@ export const VideoIPFS = ({
         {thumbnail !== undefined && videoUrl === undefined && (
           <img src={thumbnail} className="absolute top-0 left-0 w-full h-full object-cover" />
         )}
-        <video autoPlay muted={muted} loop={loop} playsInline {...rest} onLoadedData={handleLoadedData}>
+        <video ref={videoRef} autoPlay muted={muted} loop={loop} playsInline {...rest} onLoadedData={handleLoadedData}>
           <source src={videoUrl} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
