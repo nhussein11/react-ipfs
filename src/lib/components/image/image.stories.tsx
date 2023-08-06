@@ -9,6 +9,21 @@ const meta: Meta<typeof ImageIPFS> = {
     hash: {
       default: '',
     },
+    gateway: {
+      default: '',
+    },
+    width: {
+      default: 100,
+    },
+    height: {
+      default: 100,
+    },
+    alt: {
+      default: 'alt',
+    },
+    lazy: {
+      default: false,
+    },
   },
 }
 
@@ -16,9 +31,9 @@ export default meta
 
 const Template: StoryFn<typeof ImageIPFS> = (args: IpfsImageProps) => <ImageIPFS {...args} />
 
-export const DefaultImage = Template.bind({})
+export const Image = Template.bind({})
 
-DefaultImage.args = {
+Image.args = {
   hash: 'QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi',
 }
 
