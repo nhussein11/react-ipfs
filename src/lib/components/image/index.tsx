@@ -1,7 +1,7 @@
 import type { CSSProperties, HTMLAttributes, HTMLProps, SyntheticEvent } from 'react'
 import { useEffect, useState } from 'react'
-import { getIpfsURL } from '../../utils/ipfs'
 import { DEFAULT_FALLBACK_IMAGE } from '../../const/images'
+import { getIpfsURL } from '../../utils/ipfs'
 
 export interface IpfsImageProps extends HTMLAttributes<HTMLImageElement> {
   hash: string
