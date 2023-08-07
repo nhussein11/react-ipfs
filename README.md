@@ -28,7 +28,8 @@ To import library components:
 
 ```js
 /* pages/index.tsx */
-import { Dummy } from 'ipfs-react'
+import { VideoIPFS } from 'ipfs-react'
+import { ImageIPFS } from 'ipfs-react'
 // More imports and your Page component...
 ```
 
