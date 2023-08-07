@@ -149,4 +149,24 @@ describe('IPFSVideo', () => {
     expect(video).toBeDefined()
     expect(video?.volume).toBe(0.5)
   })
+  it('should render the IPFSVideo component with specific width and height', () => {
+    render(
+      <VideoIPFS
+        hash="Qmc2oeTErghqoTB3N9j8te8QEfGRPTfTNH77aXARiMeuDJ"
+        gateway="https://ipfs.io/ipfs/"
+        thumbnail="https://ipfs.io/ipfs/QmZ9y1Vd7X9s8XG4Zz1Xh7k2Lj6Z5oQ6c5sJgU7h6LQ3bC"
+        loadingComponent={<div>Loading...</div>}
+        muted
+        loop
+        controls
+        volume={0.5}
+        width={200}
+        height={200}
+      />,
+    )
+    const video = document.querySelector('video')
+    expect(video).toBeDefined()
+    expect(video?.width).toBe(200)
+    expect(video?.height).toBe(200)
+  })
 })
