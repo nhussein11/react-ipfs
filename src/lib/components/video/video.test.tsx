@@ -147,6 +147,6 @@ describe('IPFSVideo', () => {
     )
     const video = document.querySelector('video')
     expect(video).toBeDefined()
-    expect(video.volume).toBe(0.5)
+    expect(video?.volume).toBe(0.5)
   })
 })
