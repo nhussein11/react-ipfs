@@ -13,6 +13,8 @@ export interface IpfsVideoProps extends HTMLAttributes<HTMLVideoElement> {
   loadingComponent?: ReactNode
   thumbnail?: string
   volume?: number
+  width?: number
+  height?: number
 }
 
 export const VideoIPFS = ({
@@ -23,6 +25,8 @@ export const VideoIPFS = ({
   loadingComponent = <DefaultLoadingComponent />,
   volume = 1,
   thumbnail,
+  width = 500,
+  height = 500,
   ...rest
 }: IpfsVideoProps): JSX.Element => {
   const [videoUrl, setVideoUrl] = useState<string>('')
@@ -51,7 +55,17 @@ export const VideoIPFS = ({
         {thumbnail !== undefined && videoUrl === undefined && (
           <img src={thumbnail} className="absolute top-0 left-0 w-full h-full object-cover" />
         )}
-        <video ref={videoRef} autoPlay muted={muted} loop={loop} playsInline {...rest} onLoadedData={handleLoadedData}>
+        <video
+          ref={videoRef}
+          autoPlay
+          muted={muted}
+          loop={loop}
+          playsInline
+          width={width}
+          height={height}
+          {...rest}
+          onLoadedData={handleLoadedData}
+        >
           <source src={videoUrl} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
