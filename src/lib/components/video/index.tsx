@@ -1,9 +1,6 @@
 import { useLayoutEffect, useState, type HTMLAttributes, type ReactNode, useRef, useEffect } from 'react'
 import { getIpfsURL } from '../../utils/ipfs'
-
-const DefaultLoadingComponent = (): JSX.Element => {
-  return <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">Loading...</div>
-}
+import { DefaultLoadingComponent } from '../utils'
 
 export interface IpfsVideoProps extends HTMLAttributes<HTMLVideoElement> {
   hash: string
