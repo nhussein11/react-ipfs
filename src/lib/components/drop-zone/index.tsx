@@ -1,6 +1,21 @@
 import { useState } from 'react'
 // TODO: remove all any types here
 
+interface RemoveFileProps {
+  handleRemoveFile: () => void
+}
+
+const RemoveFile = ({ handleRemoveFile }: RemoveFileProps): JSX.Element => {
+  return (
+    <button
+      className="text-[10px] text-red-500 border border-red-500 px-[5px] py-0.5 rounded-full cursor-pointer"
+      onClick={handleRemoveFile}
+    >
+      X
+    </button>
+  )
+}
+
 export const FileDropZone = (): JSX.Element => {
   const [droppedFiles, setDroppedFiles] = useState<any>([])
   const isEmpty = droppedFiles.length === 0
@@ -32,6 +47,10 @@ export const FileDropZone = (): JSX.Element => {
     console.log('uploading file')
   }
 
+  const handleRemoveFile = (): void => {
+    console.log('removing file')
+  }
+
   return (
     <div
       onDrop={handleDrop}
@@ -56,10 +75,7 @@ export const FileDropZone = (): JSX.Element => {
           <ul className="pt-5">
             {droppedFiles.map((file: any, index: any) => (
               <li key={index}>
-                {file.name}{' '}
-                <span className="text-[10px] text-red-500 border border-red-500 px-1 py-0.5 rounded-full cursor-pointer">
-                  X
-                </span>
+                {file.name} <RemoveFile handleRemoveFile={handleRemoveFile} />
               </li>
             ))}
           </ul>
