@@ -44,11 +44,13 @@ export const FileDropZone = (): JSX.Element => {
   }
 
   const handleUploadFile = (): void => {
+    // TODO: upload file to server
     console.log('uploading file')
   }
 
   const handleRemoveFile = (): void => {
-    console.log('removing file')
+    const newFiles = droppedFiles.slice(0, -1)
+    setDroppedFiles(newFiles)
   }
 
   return (
