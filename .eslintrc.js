@@ -9,6 +9,7 @@ module.exports = {
     'prettier',
     'plugin:storybook/recommended',
     'plugin:storybook/recommended',
+    'standard-with-typescript',
   ],
   overrides: [],
   parserOptions: {
