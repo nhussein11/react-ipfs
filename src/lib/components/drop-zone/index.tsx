@@ -1,56 +1,67 @@
-import { useState } from 'react'
-// TODO: remove all any types here
-
-interface RemoveFileProps {
-  handleRemoveFile: () => void
-}
-
-const RemoveFile = ({ handleRemoveFile }: RemoveFileProps): JSX.Element => {
-  return (
-    <button
-      className="text-[10px] text-red-500 border border-red-500 px-[5px] py-0.5 rounded-full cursor-pointer"
-      onClick={handleRemoveFile}
-    >
-      X
-    </button>
-  )
-}
+import { NFTStorage, File, Blob } from 'nft.storage'
+import { ALLOWED_EXTENSIONS } from '../../const/extensions'
+import { useState, DragEvent } from 'react'
+import { BaseRemoveFileButton } from '../utils/BaseRemoveFileButton'
+import { NFT_STORAGE_TOKEN } from '../../const/values'
 
 export const FileDropZone = (): JSX.Element => {
-  const [droppedFiles, setDroppedFiles] = useState<any>([])
-  const isEmpty = droppedFiles.length === 0
+  const [droppedFile, setDroppedFile] = useState<File>()
+  const isEmpty = droppedFile?.length === 0
 
-  const handleDrop = (e: any): void => {
-    e.preventDefault()
-    const newFiles = Array.from(e.dataTransfer.files)
-    console.log(newFiles)
-    setDroppedFiles(newFiles)
+  const handleDrop = (event: DragEvent<HTMLInputElement>): void => {
+    event.preventDefault()
+    const dataTransfer = event.dataTransfer
+    if (dataTransfer && dataTransfer.files) {
+      setDroppedFile(dataTransfer.files[0])
+    }
   }
 
-  const handleDragOver = (e: any): void => {
-    e.preventDefault()
+  const handleDragOver = (event: DragEvent): void => {
+    event.preventDefault()
   }
 
   const handleOpenFileExplorer = (): void => {
     const fileExplorer = document.createElement('input')
     fileExplorer.setAttribute('type', 'file')
     fileExplorer.setAttribute('multiple', 'true')
-    fileExplorer.setAttribute('accept', '.jpg, .jpeg, .png')
-    fileExplorer.addEventListener('change', (e: any) => {
-      const newFiles = Array.from(e.target.files)
-      setDroppedFiles(newFiles)
+    fileExplorer.setAttribute('accept', ALLOWED_EXTENSIONS)
+    fileExplorer.addEventListener('change', (event: Event) => {
+      const inputElement = event.target as HTMLInputElement
+      if (inputElement.files) {
+        setDroppedFile(inputElement.files[0])
+      }
     })
     fileExplorer.click()
   }
 
-  const handleUploadFile = (): void => {
-    // TODO: upload file to server
-    console.log('uploading file')
+  const handleUploadFile = async (): Promise<void> => {
+    const client = new NFTStorage({ token: NFT_STORAGE_TOKEN })
+    const fileReader = new FileReader()
+    if (droppedFile) {
+      fileReader.readAsArrayBuffer(droppedFile)
+      fileReader.onloadend = async () => {
+        const fileBlob = new Blob([fileReader.result!])
+        const fileCid = await client.storeBlob(fileBlob)
+        console.log('fileCid', fileCid)
+
+        const metadata = {
+          metadata: {
+            file: fileCid,
+          },
+        }
+
+        const data = new Blob([JSON.stringify(metadata)])
+        const { car } = await NFTStorage.encodeBlob(data)
+        const cid = await client.storeCar(car)
+        console.log('cid', cid)
+      }
+    } else {
+      console.error('Dropped file is undefined or null.')
+    }
   }
 
   const handleRemoveFile = (): void => {
-    const newFiles = droppedFiles.slice(0, -1)
-    setDroppedFiles(newFiles)
+    setDroppedFile(undefined)
   }
 
   return (
@@ -59,30 +70,34 @@ export const FileDropZone = (): JSX.Element => {
       onDragOver={handleDragOver}
       className="w-72 h-80 border-2 border-dashed border-gray-300 rounded-2xl text-center flex flex-col justify-between items-center cursor-default"
     >
-      <div className={`h-full flex flex-col items-center ${isEmpty ? 'justify-center' : 'justify-end'} `}>
+      <div className={`h-full flex flex-col items-center ${isEmpty ? 'justify-center' : 'justify-end'}`}>
         <p>
-          Drag and drop files here <br />
+          Drag and drop file here <br />
           or
         </p>
         <button
           className="bg-transparent hover:bg-gray-300 text-gray-400 hover:text-white py-1 px-2 border border-gray-400 hover:border-transparent rounded"
           onClick={handleOpenFileExplorer}
         >
-          Click to select files
+          Click to select file
         </button>
       </div>
 
       {!isEmpty && (
         <div className="flex flex-col justify-center items-center  mt-3">
           <ul className="pt-5">
-            {droppedFiles.map((file: any, index: any) => (
-              <li key={index}>
-                {file.name} <RemoveFile handleRemoveFile={handleRemoveFile} />
-              </li>
-            ))}
+            <li>
+              {droppedFile ? (
+                <>
+                  {droppedFile.name} <BaseRemoveFileButton handleRemoveFile={handleRemoveFile} />
+                </>
+              ) : (
+                'No file selected'
+              )}
+            </li>
           </ul>
           <button
-            className="my-[0.35rem] text-xs text-blue-500 rounded-md  underline underline-offset-4 px-3 py-1"
+            className="my-[0.35rem] text-xs text-blue-500 rounded-md underline underline-offset-4 px-3 py-1"
             onClick={handleUploadFile}
           >
             Upload
